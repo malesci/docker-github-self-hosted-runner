@@ -1,4 +1,4 @@
-name: Build and Deploy Windows Container App to Azure App Service
+name: Docker Image CI
 
 # Trigger the build on commits into the master branch
 on:
@@ -29,5 +29,5 @@ jobs:
     # Build and push the image to Container Registry
     - name: Build and Push container to registry
       run: |
-        docker build --file=Dockerfile -t ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }} .
+        docker build --file Dockerfile -t ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }} .
         docker push ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
