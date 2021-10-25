@@ -1,6 +1,7 @@
 # escape=`
 
-FROM mcr.microsoft.com/windows/servercore:2004
+#FROM mcr.microsoft.com/windows/servercore:2004
+FROM mcr.microsoft.com/windows/nanoserver:1803-amd64
 
 LABEL org.opencontainers.image.source https://github.com/rajyraman/docker-github-self-hosted-runner
 LABEL org.opencontainers.image.documentation https://github.com/rajyraman/docker-github-self-hosted-runner/README.md
