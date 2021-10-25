@@ -15,9 +15,9 @@ WORKDIR /actions-runner
 
 SHELL [ "powershell" ]
 
-RUN "Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force; `
-    iwr -useb get.scoop.sh | iex; `
-    scoop install git"
+#RUN "Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force; `
+#    iwr -useb get.scoop.sh | iex; `
+#    scoop install git"
 
 RUN "Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force"
 RUN "iwr -useb get.scoop.sh | iex"
