@@ -8,7 +8,7 @@ on:
 
 # Starts jobs and sets the type of runner (Windows) they will run on
 jobs:
-  build-and-deploy-to-azure:
+  build-and-publish-to-gh:
     runs-on: windows-latest
 
     steps:
@@ -27,7 +27,7 @@ jobs:
       uses: docker/login-action@v1 
       with:
         username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        password: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}
         
 #    - name: Login to DockerHub Registry
 #      run: echo ${{ secrets.CONTAINER_REGISTRY_PASSWORD }} | docker login -u ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password-stdin
