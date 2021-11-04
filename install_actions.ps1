@@ -25,7 +25,7 @@ if ($TARGET_ARCH -eq "x64")
 if ((Test-Path "actions.zip") -eq $false) 
 {
     Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-win-${TARGET_ARCH}-${GH_RUNNER_VERSION}.zip" -OutFile "actions.zip"
-    Expand-Archive -Path "actions.zip"  -DestinationPath actions-runner -Force
+    Expand-Archive -Path "actions.zip" -DestinationPath /actions-runner -Force
     Remove-Item -Path "actions.zip" -Force
     mkdir /_work
 }
