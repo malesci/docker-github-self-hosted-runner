@@ -8,8 +8,7 @@ ARG $TARGETPLATFORM
 SHELL [ "powershell" ]
 
 WORKDIR c:\\actions-runner
-COPY install_actions.ps1 /actions-runner
-#COPY runner-setup.ps1 C:/runner-setup.ps1
+COPY install_actions.ps1 c:/actions-runner/
 
 RUN "Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force; iwr -useb get.scoop.sh | iex; scoop install git"
 
@@ -17,7 +16,7 @@ RUN $GH_RUNNER_VERSION=(Invoke-WebRequest -Uri "https://api.github.com/repos/act
     /actions-runner/install_actions.ps1 ${GH_RUNNER_VERSION} ${TARGETPLATFORM} ; \
     Remove-Item -Path "/actions-runner/install_actions.ps1" -Force
 
-COPY token.ps1 entrypoint.ps1 C:/
-ENTRYPOINT ["/entrypoint.ps1"]
+COPY token.ps1 entrypoint.ps1 c:/
+#ENTRYPOINT ["/entrypoint.ps1"]
 
 ##CMD ["./bin/Runner.Listener", "run", "--startuptype", "service"]
