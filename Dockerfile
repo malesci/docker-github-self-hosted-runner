@@ -7,7 +7,7 @@ LABEL maintainer="mario.alesci@gmail.com"
 ARG $TARGETPLATFORM
 SHELL [ "powershell" ]
 
-WORKDIR /actions-runner
+WORKDIR c:\\actions-runner
 COPY install_actions.ps1 /actions-runner
 #COPY runner-setup.ps1 C:/runner-setup.ps1
 
