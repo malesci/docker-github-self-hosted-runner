@@ -1,24 +1,16 @@
-if ([String]::IsNullOrWhiteSpace($GITHUB_HOST)) 
-  { $_GITHUB_HOST="github.com" }
-else
-  { $_GITHUB_HOST=${GITHUB_HOST} }
-
+$_GITHUB_HOST="$(if (Test-Path Env:GITHUB_HOST) { ${Env:GITHUB_HOST} } else { 'github.com' })"
 
 # If URL is not github.com then use the enterprise api endpoint
-if ( $_GITHUB_HOST -eq "github.com" )
-  { $URI="https://api.${_GITHUB_HOST}" }
-else
-  { $URI="https://${_GITHUB_HOST}/api/v3" }
-
+$URI="$(if ( $_GITHUB_HOST -eq "github.com" ) { "https://api.${_GITHUB_HOST}" } else { "https://${_GITHUB_HOST}/api/v3" })"
 
 $API_VERSION="v3"
 #$API_HEADER="Accept: application/vnd.github.${API_VERSION}+json"
 #$AUTH_HEADER="Authorization: token ${ACCESS_TOKEN}"
 
-switch -Wildcard ( "${RUNNER_SCOPE}" )
+switch -Wildcard ( "${Env:RUNNER_SCOPE}" )
 {
-    "org*" { $_FULL_URL="${URI}/orgs/${ORG_NAME}/actions/runners/registration-token" }
-    "ent*" { $_FULL_URL="${URI}/enterprises/${ENTERPRISE_NAME}/actions/runners/registration-token" }
+    "org*" { $_FULL_URL="${URI}/orgs/${Env:ORG_NAME}/actions/runners/registration-token" }
+    "ent*" { $_FULL_URL="${URI}/enterprises/${Env:ENTERPRISE_NAME}/actions/runners/registration-token" }
     #default { 
     #    $_PROTO="https://"
     #    # shellcheck disable=SC2116
@@ -29,7 +21,7 @@ switch -Wildcard ( "${RUNNER_SCOPE}" )
     #    $_FULL_URL="${URI}/repos/${_ACCOUNT}/${_REPO}/actions/runners/registration-token" }
 }
 
-$RUNNER_TOKEN = (Invoke-WebRequest -Headers @{ "Accept" = "application/vnd.github.${API_VERSION}+json"; "Authorization" = "token ${ACCESS_TOKEN}" } `
+$RUNNER_TOKEN = (Invoke-WebRequest -Headers @{ "Accept" = "application/vnd.github.${API_VERSION}+json"; "Authorization" = "token ${Env:ACCESS_TOKEN}" } `
                 -Method POST -Uri "${_FULL_URL}" |
                 ConvertFrom-Json | Select token).token
 
