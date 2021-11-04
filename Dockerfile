@@ -17,6 +17,6 @@ RUN $GH_RUNNER_VERSION=(Invoke-WebRequest -Uri "https://api.github.com/repos/act
     Remove-Item -Path "install_actions.ps1" -Force
 
 COPY token.ps1 entrypoint.ps1 c:/
-#ENTRYPOINT ["/entrypoint.ps1"]
+ENTRYPOINT ["c:\\entrypoint.ps1]
 
 ##CMD ["./bin/Runner.Listener", "run", "--startuptype", "service"]
