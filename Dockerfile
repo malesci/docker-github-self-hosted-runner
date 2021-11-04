@@ -7,8 +7,11 @@ LABEL maintainer="mario.alesci@gmail.com"
 ARG $TARGETPLATFORM
 SHELL [ "powershell" ]
 
+#WORKDIR c:\\actions-runner
+#COPY install_actions.ps1 c:/actions-runner/
+
 WORKDIR c:\\actions-runner
-COPY install_actions.ps1 install_actions.ps1
+COPY install_actions.ps1 .
 
 RUN "Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force; iwr -useb get.scoop.sh | iex; scoop install git"
 
