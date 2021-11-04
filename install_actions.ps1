@@ -1,14 +1,14 @@
 $GH_RUNNER_VERSION=$args[0]
 $TARGETPLATFORM=$args[1]
 
-$env:TARGET_ARCH="x64"
+$TARGET_ARCH="x64"
 if ($TARGETPLATFORM -eq "linux/arm/v7")
 { 
-    $env:TARGET_ARCH="arm"
+    $TARGET_ARCH="arm"
 }
 elseif ($TARGETPLATFORM -eq "linux/arm64")
 {
-    $env:TARGET_ARCH="arm64"
+    $TARGET_ARCH="arm64"
 }
 
 # managing additional packages to install
