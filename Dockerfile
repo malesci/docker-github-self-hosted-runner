@@ -2,7 +2,7 @@
 # escape=
 
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
-LABEL maintainer="mariano.alesci@st.com"
+LABEL maintainer="mario.alesci@gmail.com"
 
 ARG $TARGETPLATFORM
 SHELL [ "powershell" ]
