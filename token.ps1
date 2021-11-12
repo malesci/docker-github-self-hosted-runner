@@ -21,7 +21,7 @@ switch -Wildcard ( "${Env:RUNNER_SCOPE}" )
     #    $_FULL_URL="${URI}/repos/${_ACCOUNT}/${_REPO}/actions/runners/registration-token" }
 }
 
-$RUNNER_TOKEN = (Invoke-WebRequest -Headers @{ "Accept" = "application/vnd.github.${API_VERSION}+json"; "Authorization" = "token ${Env:ACCESS_TOKEN}" } `
+$RUNNER_TOKEN = (Invoke-WebRequest -UseBasicParsing -Headers @{ "Accept" = "application/vnd.github.${API_VERSION}+json"; "Authorization" = "token ${Env:ACCESS_TOKEN}" } `
                 -Method POST -Uri "${_FULL_URL}" |
                 ConvertFrom-Json | Select token).token
 
