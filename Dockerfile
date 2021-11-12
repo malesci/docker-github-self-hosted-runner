@@ -7,9 +7,6 @@ LABEL maintainer="mario.alesci@gmail.com"
 ARG $TARGETPLATFORM
 SHELL [ "powershell" ]
 
-#WORKDIR c:\\actions-runner
-#COPY install_actions.ps1 c:/actions-runner/
-
 WORKDIR c:\\actions-runner
 COPY install_actions.ps1 .
 
@@ -20,6 +17,7 @@ RUN $GH_RUNNER_VERSION=(Invoke-WebRequest -Uri "https://api.github.com/repos/act
     Remove-Item -Path "install_actions.ps1" -Force
 
 COPY token.ps1 entrypoint.ps1 c:/
-ENTRYPOINT ["C:\\entrypoint.ps1"]
-
+#ENTRYPOINT ["c:\\entrypoint.ps1"]
 ##CMD ["./bin/Runner.Listener", "run", "--startuptype", "service"]
+
+CMD c:\\entrypoint.ps1
