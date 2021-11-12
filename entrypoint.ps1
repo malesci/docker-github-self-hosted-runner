@@ -1,5 +1,5 @@
 $Env:RUNNER_ALLOW_RUNASROOT = 1
-$Env:Path += ";C:\actions-runner"
+$Env:Path += ";c:\actions-runner"
 
 # Un-export these, so that they must be passed explicitly to the environment of
 # any command that needs them.  This may help prevent leaks.
@@ -15,7 +15,7 @@ $Env:Path += ";C:\actions-runner"
 function deregister_runner {
   Write-Host "Caught SIGTERM. Deregistering runner"
   if (Test-Path Env:ACCESS_TOKEN) {
-    $_TOKEN = &"C:\\token.ps1"
+    $_TOKEN = &"c:\\token.ps1"
     $RUNNER_TOKEN=$(${_TOKEN} | ConvertFrom-Json | Select token).token
   }
   else {
@@ -65,7 +65,7 @@ switch -Wildcard ( "${RUNNER_SCOPE}" )
 
 function configure_runner {
   if (Test-Path Env:ACCESS_TOKEN) {
-    $_TOKEN = &"C:\\token.ps1"
+    $_TOKEN = &"c:\\token.ps1"
     $RUNNER_TOKEN=$(${_TOKEN} | ConvertFrom-Json | Select token).token
   }
   else {
