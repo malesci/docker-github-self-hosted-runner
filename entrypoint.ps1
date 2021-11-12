@@ -81,14 +81,14 @@ function configure_runner {
   }
 
   Write-Host "Configuring"
-  ./config.cmd \
-      --url "${_SHORT_URL}" \
-      --token "${RUNNER_TOKEN}" \
-      --name "${_RUNNER_NAME}" \
-      --work "${_RUNNER_WORKDIR}" \
-      --labels "${_LABELS}" \
-      --runnergroup "${_RUNNER_GROUP}" \
-      --unattended \
+  ./config.cmd `
+      --url "${_SHORT_URL}" `
+      --token "${RUNNER_TOKEN}" `
+      --name "${_RUNNER_NAME}" `
+      --work "${_RUNNER_WORKDIR}" `
+      --labels "${_LABELS}" `
+      --runnergroup "${_RUNNER_GROUP}" `
+      --unattended `
       --replace
 }
 
