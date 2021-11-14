@@ -21,6 +21,7 @@ switch -Wildcard ( "${Env:RUNNER_SCOPE}" )
     #    $_FULL_URL="${URI}/repos/${_ACCOUNT}/${_REPO}/actions/runners/registration-token" }
 }
 
+# decode access token
 $encrypted_pat=Get-Content "c:\\.PAT" | ConvertTo-SecureString
 $ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToCoTaskMemUnicode($encrypted_pat)
 $clear_pat = [System.Runtime.InteropServices.Marshal]::PtrToStringUni($ptr)

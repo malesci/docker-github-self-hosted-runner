@@ -1,9 +1,7 @@
 $Env:RUNNER_ALLOW_RUNASROOT = 1
 $Env:Path += ";c:\actions-runner"
 
-# Un-export these, so that they must be passed explicitly to the environment of
-# any command that needs them.  This may help prevent leaks.
-
+# encrypt access token
 if (Test-Path Env:ACCESS_TOKEN) { 
     ${Env:ACCESS_TOKEN} | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString | Out-File "c:\\.PAT"
     Remove-Item Env:ACCESS_TOKEN
