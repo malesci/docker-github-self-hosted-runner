@@ -34,4 +34,4 @@ $RUNNER_TOKEN = (Invoke-WebRequest -UseBasicParsing -Headers @{ "Accept" = "appl
                 ConvertFrom-Json | Select token).token
 
 Clear-Variable -Name "clear_pat"
-eho @{token="${RUNNER_TOKEN}";full_url="${_FULL_URL}"} | ConvertTo-Json -Compress
+echo @{token="${RUNNER_TOKEN}";full_url="${_FULL_URL}"} | ConvertTo-Json -Compress
