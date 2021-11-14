@@ -32,7 +32,7 @@ $_DISABLE_AUTOMATIC_DEREGISTRATION="$(if (Test-Path Env:DISABLE_AUTOMATIC_DEREGI
 $_RUNNER_NAME_PREFIX="$(if (Test-Path Env:RUNNER_NAME_PREFIX) { ${Env:RUNNER_NAME_PREFIX} } else { 'github-runner' })"
 $_RUNNER_NAME       ="$(if (Test-Path Env:RUNNER_NAME)        { ${Env:RUNNER_NAME} }        else { "${_RUNNER_NAME_PREFIX}$( -join ((0x30..0x39) + ( 0x41..0x5A) + ( 0x61..0x7A) | Get-Random -Count 8 | % {[char]$_}) )" })"
 $_RUNNER_WORKDIR    ="$(if (Test-Path Env:RUNNER_WORKDIR)     { ${Env:RUNNER_WORKDIR} }     else { '_work' })"
-$_LABELS            ="$(if (Test-Path Env:RUNNER_WORKDIR)     { ${Env:LABELS} }             else { '/default' })"
+$_LABELS            ="$(if (Test-Path Env:RUNNER_WORKDIR)     { ${Env:LABELS} }             else { 'default' })"
 $_RUNNER_GROUP      ="$(if (Test-Path Env:RUNNER_GROUP)       { ${Env:RUNNER_GROUP} }       else { 'Default' })"
 $_GITHUB_HOST       ="$(if (Test-Path Env:GITHUB_HOST)        { ${Env:GITHUB_HOST} }        else { 'github.com' })"
 

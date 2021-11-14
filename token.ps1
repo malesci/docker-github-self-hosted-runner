@@ -11,14 +11,20 @@ switch -Wildcard ( "${Env:RUNNER_SCOPE}" )
 {
     "org*" { $_FULL_URL="${URI}/orgs/${Env:ORG_NAME}/actions/runners/registration-token" }
     "ent*" { $_FULL_URL="${URI}/enterprises/${Env:ENTERPRISE_NAME}/actions/runners/registration-token" }
-    #default { 
-    #    $_PROTO="https://"
-    #    # shellcheck disable=SC2116
-    #    $_URL="$(echo "${REPO_URL/$_PROTO/}")"
-    #    $_PATH="$(echo "${_URL}" | grep / | cut -d/ -f2-)"
-    #    $_ACCOUNT="$(echo "${_PATH}" | cut -d/ -f1)"
-    #    $_REPO="$(echo "${_PATH}" | cut -d/ -f2)"
-    #    $_FULL_URL="${URI}/repos/${_ACCOUNT}/${_REPO}/actions/runners/registration-token" }
+    default { 
+        $_PROTO="https://"
+        # shellcheck disable=SC2116
+        $_URL=$REPO_URL.replace($_PROTO,"")
+        
+        $pos=$_URL.IndexOf("/")
+        $_PATH=$_URL.Substring($pos+1)
+        
+        $pos=$_PATH.IndexOf("/")
+        $_ACCOUNT=$_PATH.Substring(0,$pos)
+
+        $_REPO=$_PATH.Substring($pos+1)
+        $_FULL_URL="${URI}/repos/${_ACCOUNT}/${_REPO}/actions/runners/registration-token" 
+    }
 }
 
 # decode access token
