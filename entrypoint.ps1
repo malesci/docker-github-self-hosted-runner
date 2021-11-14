@@ -4,17 +4,21 @@ $Env:Path += ";c:\actions-runner"
 # Un-export these, so that they must be passed explicitly to the environment of
 # any command that needs them.  This may help prevent leaks.
 
-## TBD
-#if (Test-Path Env:ACCESS_TOKEN) { Remove-Item Env:ACCESS_TOKEN }
-#if (Test-Path Env:RUNNER_TOKEN) { Remove-Item Env:RUNNER_TOKEN }
+if (Test-Path Env:ACCESS_TOKEN) { 
+    ${Env:ACCESS_TOKEN} | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString | Out-File "c:\\.PAT"
+    Remove-Item Env:ACCESS_TOKEN
+}
 
-#export -n ACCESS_TOKEN
-#export -n RUNNER_TOKEN
-
+# managing additional packages to install
+if (Test-Path Env:ADDITIONAL_PACKAGES) {
+    $TO_BE_INSTALLED=${Env:ADDITIONAL_PACKAGES} -replace(","," ")
+    echo "Installing additional packages: ${TO_BE_INSTALLED}"
+    scoop install ${TO_BE_INSTALLED}
+}
 
 function deregister_runner {
   Write-Host "Caught SIGTERM. Deregistering runner"
-  if (Test-Path Env:ACCESS_TOKEN) {
+  if (Test-Path "c:\\.PAT") {
     $_TOKEN = &"c:\\token.ps1"
     $RUNNER_TOKEN=$(${_TOKEN} | ConvertFrom-Json | Select token).token
   }
@@ -23,6 +27,7 @@ function deregister_runner {
     exit 1
   }
   ./config.cmd remove --token "${RUNNER_TOKEN}"
+  Clear-Variable -Name "RUNNER_TOKEN"
 }
 
 $_DISABLE_AUTOMATIC_DEREGISTRATION="$(if (Test-Path Env:DISABLE_AUTOMATIC_DEREGISTRATION) { ${Env:DISABLE_AUTOMATIC_DEREGISTRATION} } else { $false })"
@@ -64,7 +69,7 @@ switch -Wildcard ( "${RUNNER_SCOPE}" )
 }
 
 function configure_runner {
-  if (Test-Path Env:ACCESS_TOKEN) {
+  if (Test-Path "c:\\.PAT") {
     $_TOKEN = &"c:\\token.ps1"
     $RUNNER_TOKEN=$(${_TOKEN} | ConvertFrom-Json | Select token).token
   }
@@ -83,6 +88,7 @@ function configure_runner {
       --runnergroup "${_RUNNER_GROUP}" `
       --unattended `
       --replace
+  Clear-Variable -Name "RUNNER_TOKEN"
 }
 
 # Opt into runner reusage because a value was given
@@ -110,7 +116,6 @@ else {
 if (Test-Path Env:CONFIGURED_ACTIONS_RUNNER_FILES_DIR) {
   Write-Host "Reusage is enabled. Storing data to ${Env:CONFIGURED_ACTIONS_RUNNER_FILES_DIR}"
   # Quoting (even with double-quotes) the regexp brokes the copying
-  #cp -p -r "/actions-runner/_diag" "/actions-runner/svc.sh" /actions-runner/.[^.]* "${CONFIGURED_ACTIONS_RUNNER_FILES_DIR}"
   cp -p -r "/actions-runner/_diag" /actions-runner/.[^.]* "${Env:CONFIGURED_ACTIONS_RUNNER_FILES_DIR}"
 }
 

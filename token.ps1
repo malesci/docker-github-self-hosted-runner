@@ -21,8 +21,16 @@ switch -Wildcard ( "${Env:RUNNER_SCOPE}" )
     #    $_FULL_URL="${URI}/repos/${_ACCOUNT}/${_REPO}/actions/runners/registration-token" }
 }
 
-$RUNNER_TOKEN = (Invoke-WebRequest -UseBasicParsing -Headers @{ "Accept" = "application/vnd.github.${API_VERSION}+json"; "Authorization" = "token ${Env:ACCESS_TOKEN}" } `
+$encrypted_pat=Get-Content "c:\\.PAT" | ConvertTo-SecureString
+$ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToCoTaskMemUnicode($encrypted_pat)
+$clear_pat = [System.Runtime.InteropServices.Marshal]::PtrToStringUni($ptr)
+[System.Runtime.InteropServices.Marshal]::ZeroFreeCoTaskMemUnicode($ptr)
+Clear-Variable -Name "ptr"
+Clear-Variable -Name "encrypted_pat"
+
+$RUNNER_TOKEN = (Invoke-WebRequest -UseBasicParsing -Headers @{ "Accept" = "application/vnd.github.${API_VERSION}+json"; "Authorization" = "token $clear_pat" } `
                 -Method POST -Uri "${_FULL_URL}" |
                 ConvertFrom-Json | Select token).token
 
-echo @{token="${RUNNER_TOKEN}";full_url="${_FULL_URL}"} | ConvertTo-Json -Compress
+Clear-Variable -Name "clear_pat"
+Write-Host @{token="${RUNNER_TOKEN}";full_url="${_FULL_URL}"} | ConvertTo-Json -Compress
