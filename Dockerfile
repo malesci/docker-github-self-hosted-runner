@@ -14,8 +14,8 @@ RUN Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force; \
     iwr -useb get.scoop.sh | iex; \
     scoop install git
 
-RUN Install-Module -Name DockerMsftProvider -Repository PSGallery -Force; \
-    Install-Package -Name docker -ProviderName DockerMsftProvider -Force
+#RUN Install-Module -Name DockerMsftProvider -Repository PSGallery -Force; \
+#    Install-Package -Name docker -ProviderName DockerMsftProvider -Force
 
 RUN $GH_RUNNER_VERSION=(Invoke-WebRequest -Uri "https://api.github.com/repos/actions/runner/releases/latest" -UseBasicParsing | ConvertFrom-Json | Select tag_name).tag_name.SubString(1) ; \
     .\install_actions.ps1 ${GH_RUNNER_VERSION} ${TARGETPLATFORM} ; \
